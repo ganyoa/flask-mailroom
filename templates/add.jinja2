@@ -4,7 +4,8 @@
 
 {% block content %}
     <form method="POST">
-        <label for="donor_nm">Donor:</label><input id="donor_nm" type="text" name="name">
+        {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+        <label for="donor_nm">Donor:</label><input id="donor_nm" type="text" name="name"><br>
         <label for="donation_amt">Donation: </label><input id="donation_amt" type="number" name="number">
         <input type="submit" value="Add donation!">
     </form>

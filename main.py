@@ -1,7 +1,8 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for
-from model import TotalDonations
+from model import Donor, Donation
+import peewee
 
 app = Flask(__name__)
 
@@ -13,27 +14,39 @@ def home():
 
 @app.route('/donations')
 def donations():
- return render_template('donations.jinja2', tasks=TotalDonations.select())
+ return render_template('donations.jinja2', all_donations=Donation.select())
 
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-
+    registered_donors=Donor.select()
     if request.method == 'POST':
-        task = TotalDonations(donor_name=request.form['name'], donation_amount=request.form['number'])
-        task.save()
-
-        return redirect(url_for('donations'))
+        try:
+            name_check = Donor.get(Donor.name == (request.form['name'])).id
+            Donation(donor=name_check, value=request.form['number']).save()
+            return redirect(url_for('donations'))
+        except peewee.DoesNotExist:
+            return render_template('add.jinja2', error="Donor name is not registered.")
     else:
         return render_template('add.jinja2')
 
 
+'''worked
+        name_check = Donor.get(Donor.name == (request.form['name'])).id
+        if name_check:
+            Donation(donor=name_check, value=request.form['number']).save()
+            #add_donation = Donation(donor=request.form['name'], value=request.form['number'])
+            #add_donation.save()
+
+            return redirect(url_for('donations'))
+        else:
+            return render_template('add.jinja2', error="Donor name is not registered.")
+    else:
+        return render_template('add.jinja2')
+'''# end worked
+
+
 if __name__ == "__main__":
- port = int(os.environ.get("PORT", 5000))
+ port = int(os.environ.get("PORT", 6738))
  app.run(host='0.0.0.0', port=port)
 
-'''
-add.jinja2
-
-
-'''
