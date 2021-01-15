@@ -31,21 +31,6 @@ def add():
         return render_template('add.jinja2')
 
 
-'''worked
-        name_check = Donor.get(Donor.name == (request.form['name'])).id
-        if name_check:
-            Donation(donor=name_check, value=request.form['number']).save()
-            #add_donation = Donation(donor=request.form['name'], value=request.form['number'])
-            #add_donation.save()
-
-            return redirect(url_for('donations'))
-        else:
-            return render_template('add.jinja2', error="Donor name is not registered.")
-    else:
-        return render_template('add.jinja2')
-'''# end worked
-
-
 if __name__ == "__main__":
  port = int(os.environ.get("PORT", 6738))
  app.run(host='0.0.0.0', port=port)

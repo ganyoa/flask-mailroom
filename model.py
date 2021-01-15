@@ -18,12 +18,3 @@ class Donation(Model):
 
     class Meta:
         database = db
-
-'''previous table
-class TotalDonations(Model): # my_database.db table name
-    donor_name = CharField(max_length=255)
-    donation_amount = IntegerField()
-
-    class Meta:
-        database = db
-'''
